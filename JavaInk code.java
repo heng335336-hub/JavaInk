@@ -4,7 +4,7 @@ import java.awt.*;
 public class Main{
     public static void main(String[] args){
 
-        //Create panel
+        //Create panel ........
         JFrame frame = new JFrame("JavaInk");
         frame.setLocation(500,100);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
