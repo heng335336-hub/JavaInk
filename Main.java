@@ -4,7 +4,7 @@ public class Main{
     public static void main(String[] args){
         JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500); /////////
+        frame.setSize(500,500); //////////
         frame.setResizable(true);
         frame.setLocation(550,100);
         frame.setLayout(null);
