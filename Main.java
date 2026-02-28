@@ -17,21 +17,33 @@ public class Main{
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panel.setSize(500,37);
-        panel.setBackground(Color.GRAY);
+        panel.setSize(5000,37);
+        panel.setBackground(new Color(159, 159, 159));
 
         JButton file = new JButton("File");
         file.setFocusable(false);
         file.setPreferredSize(new Dimension(56,26));
+        file.setContentAreaFilled(false);
+        file.setBorderPainted(false);
+        file.setFocusPainted(false);
         JButton view = new JButton("View");
         view.setFocusable(false);
         view.setPreferredSize(new Dimension(60,26));
+        view.setContentAreaFilled(false);
+        view.setBorderPainted(false);
+        view.setFocusPainted(false);
         JButton edit = new JButton("Edit");
         edit.setFocusable(false);
         edit.setPreferredSize(new Dimension(56,26));
+        edit.setContentAreaFilled(false);
+        edit.setBorderPainted(false);
+        edit.setFocusPainted(false);
         JButton theme = new JButton("Theme");
         theme.setFocusable(false);
         theme.setPreferredSize(new Dimension(73,26));
+        theme.setContentAreaFilled(false);
+        theme.setBorderPainted(false);
+        theme.setFocusPainted(false);
 
         file.addActionListener(e -> {
             JOptionPane.showMessageDialog(
