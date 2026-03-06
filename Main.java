@@ -1,92 +1,111 @@
 import javax.swing.*;
 import java.awt.*;
-public class Main{
-    public static void main(String[] args){
-        JFrame frame = new JFrame("JavaInk");
+public class Main {
+    public static void main(String[] args) {
+        // ///////////////////////////
+        JFrame frame = new JFrame("Java Ink");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500); //////////
-        frame.setResizable(true);
-        frame.setLocation(550,100);
-        frame.setLayout(null);
+        frame.setSize(800,600);
+        frame.setLocationRelativeTo(null);
+        frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(new Color(40, 40, 40));
+        // ///////////////////////////
+        JMenuBar menubar = new JMenuBar();
 
-        int x = 200;
+        JMenu file = new JMenu("File");
+        JMenu edit = new JMenu("Edit");
+        JMenu view  = new JMenu("View");
+        JMenu insert = new JMenu("Insert");
+        JMenu theme = new JMenu("Theme");
+        JMenu help = new JMenu("Help");
+        // /////////////////////////////
         ImageIcon icon = new ImageIcon("src/javaink.png");
-        Image image = icon.getImage().getScaledInstance(211 + x,178 + x,Image.SCALE_SMOOTH);
-        icon = new ImageIcon(image);
         frame.setIconImage(icon.getImage());
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panel.setSize(5000,37);
-        panel.setBackground(new Color(159, 159, 159));
-
-        JButton file = new JButton("File");
-        file.setFocusable(false);
-        file.setPreferredSize(new Dimension(56,26));
-        file.setContentAreaFilled(false);
-        file.setBorderPainted(false);
-        file.setFocusPainted(false);
-        JButton view = new JButton("View");
-        view.setFocusable(false);
-        view.setPreferredSize(new Dimension(60,26));
-        view.setContentAreaFilled(false);
-        view.setBorderPainted(false);
-        view.setFocusPainted(false);
-        JButton edit = new JButton("Edit");
-        edit.setFocusable(false);
-        edit.setPreferredSize(new Dimension(56,26));
-        edit.setContentAreaFilled(false);
-        edit.setBorderPainted(false);
-        edit.setFocusPainted(false);
-        JButton theme = new JButton("Theme");
-        theme.setFocusable(false);
-        theme.setPreferredSize(new Dimension(73,26));
-        theme.setContentAreaFilled(false);
-        theme.setBorderPainted(false);
-        theme.setFocusPainted(false);
-
-        file.addActionListener(e -> {
+        // /////////////////////////////
+/// /////////////////////////////////////////////////
+        JMenuItem newfile = new JMenuItem("New");
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem saveas = new JMenuItem("Save as");
+        JMenuItem saveall = new JMenuItem("Save all");
+        JMenuItem closetab = new JMenuItem("Close Tab");
+        JMenuItem exit = new JMenuItem("Exit");
+        file.add(newfile);
+        file.add(open);
+        file.add(save);
+        file.add(saveas);
+        file.add(closetab);
+        file.add(exit);
+/// ///////////////////////////////////////////////
+        JMenuItem find = new JMenuItem("Find");
+        JMenuItem findnext = new JMenuItem("Find Next");
+        JMenuItem findprev = new JMenuItem("Find Previous");
+        JMenuItem replace = new JMenuItem("Replace");
+        JMenuItem cut = new JMenuItem("Cut");
+        JMenuItem copy = new JMenuItem("Copy");
+        JMenuItem selectall = new JMenuItem("Select All");
+        JMenuItem paste = new JMenuItem("Paste");
+        edit.add(find);
+        edit.add(findnext);
+        edit.add(findprev);
+        edit.add(replace);
+        edit.add(cut);
+        edit.add(copy);
+        edit.add(selectall);
+        edit.add(paste);
+////////////////////////////////////////////////////////////
+        JMenuItem zoomin = new JMenuItem("Zoom In");
+        JMenuItem zoomout = new JMenuItem("Zoom Out");
+        JMenuItem resetzoom = new JMenuItem("Reset Zoom");
+        view.add(zoomin);
+        view.add(zoomout);
+        view.add(resetzoom);
+///////////////////////////////////////////////////////////
+        JMenuItem insertimage = new JMenuItem("Insert Image");
+        JMenuItem insertshape = new JMenuItem("Insert Shape");
+        insert.add(insertimage);
+        insert.add(insertshape);
+///////////////////////////////////////////////////////////
+        JMenuItem textscolor = new JMenuItem("Texts Color");
+        JMenuItem alltextscolor = new JMenuItem("All Texts Color");
+        JMenuItem backgroundcolor = new JMenuItem("Background Color");
+        theme.add(textscolor);
+        theme.add(alltextscolor);
+        theme.add(backgroundcolor);
+////////////////////////////////////////////////////////////
+        JMenuItem about = new JMenuItem("About");
+        about.addActionListener(e -> {
             JOptionPane.showMessageDialog(
-                    frame,
-                    "The File Button haven't develope by the group owner yet",
-                    "Report",
-                    JOptionPane.PLAIN_MESSAGE
-                    );
+                    null,
+                    "If you find this app helpful pls subcribe",
+                    "Help",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
+        help.add(about);
+        // ////////////////////////////////
+        JTextArea textarea = new JTextArea();
+        textarea.setEditable(true);
+        textarea.setBackground(new Color(40, 40, 40));
+        textarea.setForeground(new Color(255, 255, 255));
+        // ////////////////////////////////
+        JPanel underinfo = new JPanel();
+        underinfo.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        underinfo.setBackground(new Color(76, 76, 76));
+        JLabel label = new JLabel();
+        label.setForeground(new Color(255, 255, 255));
+        label.setText("Standard     |   UTF-8   |     WINDOW");
+        underinfo.add(label);
 
-        view.addActionListener(e -> {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Please wait until the group owner develope",
-                    "Report",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        });
+        menubar.add(file);
+        menubar.add(edit);
+        menubar.add(view);
+        menubar.add(insert);
+        menubar.add(theme);
+        menubar.add(help);
 
-        edit.addActionListener(e -> {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Are you serious?",
-                    "Warning",
-                    JOptionPane.WARNING_MESSAGE
-            );
-        });
-
-        theme.addActionListener(e -> {
-            JOptionPane.showConfirmDialog(
-                    frame,
-                    "Help the developer develope?",
-                    "Question",
-                    JOptionPane.YES_NO_OPTION
-            );
-        });
-
-        panel.add(file);
-        panel.add(view);
-        panel.add(edit);
-        panel.add(theme);
-
-        frame.add(panel);
+        frame.setJMenuBar(menubar);
+        frame.add(textarea, BorderLayout.CENTER);
+        frame.add(underinfo, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 }
