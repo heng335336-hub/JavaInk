@@ -10,7 +10,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // ///////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+        // ///////////////////////////Kae sa tmey
         JFrame frame = new JFrame("Java Ink");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
@@ -164,6 +164,8 @@ public class Main {
         tab.addTab("Untitled", new JScrollPane(instant_textarea));
         map.put("Untitled", null);
 
+
+
         frame.setVisible(true);
 
     }
@@ -202,23 +204,20 @@ public class Main {
 
                 reader.close();
 
-                tab.addTab("x  " + file.getName(), new JScrollPane(new_textarea));
+                tab.addTab(file.getName(), new JScrollPane(new_textarea));
 
-                tab.addMouseListener(new java.awt.event.MouseAdapter() {
-                    public void mouseClicked(java.awt.event.MouseEvent e) {
-                        int index = tab.getSelectedIndex();
 
-                        if (index != -1) {
-
-                            if (e.getX() < 30) {
-                                tab.remove(index);
-                            }
-                        }
-                    }
-                });
                 map.put(file.getName(), file.getAbsolutePath());
 
                 frame.setTitle("Java Ink - " + file.getName());
+
+                for(String key : map.keySet()){
+                    System.out.println(key);
+                }
+
+                for(String value : map.values()){
+                    System.out.println(value);
+                }
 
 
             } catch (IOException ex) {
