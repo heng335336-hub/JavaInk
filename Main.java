@@ -11,7 +11,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // ///////////////////////////Sark pull mer2
+        // ///////////////////////////doj ach
         JFrame frame = new JFrame("Java Ink");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
