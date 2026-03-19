@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Main {
 
@@ -19,8 +20,41 @@ public class Main {
         frame.getContentPane().setBackground(new Color(40, 40, 40));
         frame.setTitle("JavaInk - Untitled");
         // ///////////////////////////
+
+        //App Icon
         ImageIcon icon = new ImageIcon("javaink.png");
         frame.setIconImage(icon.getImage());
+
+        //New file icon
+        ImageIcon newfile_icon = new ImageIcon("newfile.png");
+        Image nfi = newfile_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        newfile_icon = new ImageIcon(nfi);
+
+        //Open file icon
+        ImageIcon open_icon = new ImageIcon("open.png");
+        Image oi = open_icon.getImage().getScaledInstance(17,18, Image.SCALE_AREA_AVERAGING);
+        open_icon = new ImageIcon(oi);
+
+        //Save file icon
+        ImageIcon save_icon = new ImageIcon("save.png");
+        Image si = save_icon.getImage().getScaledInstance(17,18, Image.SCALE_AREA_AVERAGING);
+        save_icon = new ImageIcon(si);
+
+        //Save as icon
+        ImageIcon saveas_icon = new ImageIcon("saveas.png");
+        Image sai = saveas_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        saveas_icon = new ImageIcon(sai);
+
+        //Close Tab Icon
+        ImageIcon closetab_icon = new ImageIcon("closetab.png");
+        Image cti = closetab_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        closetab_icon = new ImageIcon(cti);
+
+        //Exit icon
+        ImageIcon exit_icon = new ImageIcon("exit.png");
+        Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        exit_icon = new ImageIcon(ei);
+
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
 
@@ -36,12 +70,19 @@ public class Main {
         // /////////////////////////////
 /// /////////////////////////////////////////////////
         JMenuItem newfile = new JMenuItem("New");
+        newfile.setIcon(newfile_icon);
         JMenuItem open = new JMenuItem("Open");
+        open.setIcon(open_icon);
         JMenuItem save = new JMenuItem("Save");
+        save.setIcon(save_icon);
         JMenuItem saveas = new JMenuItem("Save as");
+        saveas.setIcon(saveas_icon);
         JMenuItem saveall = new JMenuItem("Save all");
         JMenuItem closetab = new JMenuItem("Close Tab");
+        closetab.setIcon(closetab_icon);
         JMenuItem exit = new JMenuItem("Exit");
+        exit.setIcon(exit_icon);
+
         file.add(newfile); //actionListened
         file.add(open); //actionListioned
         file.add(save); //actionListioned
@@ -86,7 +127,6 @@ public class Main {
         theme.add(alltextscolor);
         theme.add(backgroundcolor);
 
-
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
         about.addActionListener(e -> {
@@ -103,7 +143,9 @@ public class Main {
         textarea.setBackground(new Color(40, 40, 40));
         textarea.setForeground(new Color(255, 255, 255));
         textarea.setCaretColor(Color.WHITE);
+
         // ////////////////////////////////
+
         JPanel underinfo = new JPanel();
         underinfo.setLayout(new FlowLayout(FlowLayout.RIGHT));
         underinfo.setBackground(new Color(76, 76, 76));
@@ -127,7 +169,7 @@ public class Main {
         /// ///////////////////////////////////////////////////
         newfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new_file_func(newfile, textarea, frame );
+                new_file_func(newfile, textarea, frame, tab );
             }
         });
 
@@ -145,7 +187,7 @@ public class Main {
 
         saveas.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                save_as_func(chooseFile, textarea, frame );
+                save_as_func(chooseFile, frame, tab );
             }
         });
 
@@ -170,13 +212,21 @@ public class Main {
 
     }
 
-    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame) {
+    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame, JTabbedPane tab) {
 
         FileWriter currentFile = null;
 
         textarea.setText("");
         currentFile = null;
         frame.setTitle("Java Ink - New File");
+
+        JTextArea new_instant_textarea = new JTextArea();
+        new_instant_textarea.setBackground(new Color(40, 40, 40));
+        new_instant_textarea.setForeground(new Color(255, 255, 255));
+        new_instant_textarea.setCaretColor(Color.WHITE);
+        tab.addTab("Untitled", new JScrollPane(new_instant_textarea));
+        map.put("Untitled", null);
+
     }
 
     public static void open_file_func(JFileChooser chooseFile,  JFrame frame, JTabbedPane tab, JScrollPane scroll) {
@@ -247,22 +297,55 @@ public class Main {
         }
     }
 
-    public static void save_as_func(JFileChooser chooseFile, JTextArea textarea, JFrame frame) {
+    public static void save_as_func(JFileChooser chooseFile, JFrame frame, JTabbedPane tab) {
         chooseFile.setCurrentDirectory(new File("D:\\D Documents\\CODE Program\\Java\\X Java Swing\\18 Select a file"));
         int result = chooseFile.showSaveDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = chooseFile.getSelectedFile();
+            System.out.println("First " + file);
+
+            JScrollPane pane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = pane.getViewport();
+            JTextArea current_textarea = (JTextArea) viewport.getView();
 
             try{
                 BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                bw.write(textarea.getText());
+
+                bw.write(current_textarea.getText());
                 bw.close();
                 frame.setTitle("Java Ink - " + file.getName());
             }catch(IOException ex){
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to save as", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            System.out.println("Second " + chooseFile.getSelectedFile().getAbsolutePath());
+
+            int index = tab.getSelectedIndex();
+            String currentTitle = tab.getTitleAt(index);
+            File file_path = chooseFile.getSelectedFile();
+
+            if(currentTitle.equals("Untitled")){
+
+                tab.setTitleAt(index, file_path.getName());
+
+                map.remove("Untitled");
+                map.put(file_path.getName(), file_path.getAbsolutePath());
+            }
+            else{
+
+                JTextArea new_textarea = new JTextArea();
+                new_textarea.setText(current_textarea.getText());
+
+                new_textarea.setBackground(new Color(40, 40, 40));
+                new_textarea.setForeground(new Color(255, 255, 255));
+                new_textarea.setCaretColor(Color.WHITE);
+
+                tab.addTab(file_path.getName(), new JScrollPane(new_textarea));
+
+                map.put(file_path.getName(), file_path.getAbsolutePath());
+            }
         }
+
     }
 
 
