@@ -11,8 +11,8 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// X button
-        JFrame frame = new JFrame("Java Ink");
+        // /////////////////////////// ah ach
+        JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);
