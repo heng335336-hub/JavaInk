@@ -203,7 +203,36 @@ public class Main {
         instant_textarea.setBackground(new Color(40, 40, 40));
         instant_textarea.setForeground(new Color(255, 255, 255));
         instant_textarea.setCaretColor(Color.WHITE);
-        tab.addTab("Untitled", new JScrollPane(instant_textarea));
+
+        JScrollPane scrollpane = new JScrollPane(instant_textarea);
+        tab.addTab("Untitled", scrollpane);
+
+        int index = tab.indexOfComponent(scrollpane);
+        JLabel instant_label = new JLabel("Untitled");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 0));
+        panel.setOpaque(false);
+
+        JButton button = new JButton("X");
+        button.setForeground(new Color(94, 94, 94));
+        button.setMargin(new Insets(0,1,0,1));
+        button.setFocusPainted(false);
+        button.setFocusable(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.addActionListener(e -> {
+            int i =  tab.indexOfTabComponent(panel); //number of top UI
+            if(i != -1){
+                tab.remove(i);
+            }
+        });
+
+        panel.add(instant_label);
+        panel.add(button);
+
+        tab.setTabComponentAt(index, panel); //top UI
+
         map.put("Untitled", null);
 
 
@@ -224,7 +253,36 @@ public class Main {
         new_instant_textarea.setBackground(new Color(40, 40, 40));
         new_instant_textarea.setForeground(new Color(255, 255, 255));
         new_instant_textarea.setCaretColor(Color.WHITE);
-        tab.addTab("Untitled", new JScrollPane(new_instant_textarea));
+
+        JScrollPane scrollpane = new JScrollPane(new_instant_textarea);
+        tab.addTab("Untitled", scrollpane);
+
+        int index = tab.indexOfComponent(scrollpane);
+        JLabel label = new JLabel("Untitled");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 0));
+        panel.setOpaque(false);
+
+        JButton button = new JButton("X");
+        button.setForeground(new Color(94, 94, 94));
+        button.setMargin(new Insets(0,1,0,1));
+        button.setFocusPainted(false);
+        button.setFocusable(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.addActionListener(e -> {
+            int i =  tab.indexOfTabComponent(panel); //number of top UI
+            if(i != -1){
+                tab.remove(i);
+            }
+        });
+
+        panel.add(label);
+        panel.add(button);
+
+        tab.setTabComponentAt(index, panel); //top UI
+
         map.put("Untitled", null);
 
     }
@@ -254,8 +312,34 @@ public class Main {
 
                 reader.close();
 
-                tab.addTab(file.getName(), new JScrollPane(new_textarea));
+                JScrollPane scrollpane = new JScrollPane(new_textarea);
+                tab.addTab(file.getName(), scrollpane);
 
+                int index = tab.indexOfComponent(scrollpane);
+                JLabel label = new JLabel(file.getName());
+
+                JPanel panel = new JPanel();
+                panel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 0));
+                panel.setOpaque(false);
+
+                JButton button = new JButton("X");
+                button.setForeground(new Color(94, 94, 94));
+                button.setMargin(new Insets(0,1,0,1));
+                button.setFocusPainted(false);
+                button.setFocusable(false);
+                button.setContentAreaFilled(false);
+                button.setBorderPainted(false);
+                button.addActionListener(e -> {
+                    int i =  tab.indexOfTabComponent(panel); //number of top UI
+                    if(i != -1){
+                        tab.remove(i);
+                    }
+                });
+
+                panel.add(label);
+                panel.add(button);
+
+                tab.setTabComponentAt(index, panel); //top UI
 
                 map.put(file.getName(), file.getAbsolutePath());
 
