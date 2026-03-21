@@ -55,6 +55,16 @@ public class Main {
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
+        // Insert Image icon
+        ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
+        Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        insertimg_icon = new ImageIcon(iimg);
+
+       // Insert Shape icon
+        ImageIcon insertshape_icon = new ImageIcon("insertshape.png");
+        Image ishape = insertshape_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        insertshape_icon = new ImageIcon(ishape);
+
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
 
@@ -116,9 +126,14 @@ public class Main {
         view.add(resetzoom);
 ///////////////////////////////////////////////////////////
         JMenuItem insertimage = new JMenuItem("Insert Image");
+        insertimage.setIcon(insertimg_icon);
+
         JMenuItem insertshape = new JMenuItem("Insert Shape");
+        insertshape.setIcon(insertshape_icon);
+        
         insert.add(insertimage);
         insert.add(insertshape);
+
 ///////////////////////////////////////////////////////////
         JMenuItem textscolor = new JMenuItem("Texts Color");
         JMenuItem alltextscolor = new JMenuItem("All Texts Color");
