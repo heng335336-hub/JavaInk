@@ -11,7 +11,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// X button
+        // /////////////////////////// X button and Fetch test
         JFrame frame = new JFrame("Java Ink");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
