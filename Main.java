@@ -96,7 +96,8 @@ public class Main {
         file.add(newfile); //actionListened
         file.add(open); //actionListioned
         file.add(save); //actionListioned
-        file.add(saveas);
+        file.add(saveas); //actionListioned
+        file.add(saveall);
         file.add(closetab);
         file.add(exit);
 
@@ -196,13 +197,19 @@ public class Main {
 
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                save_file_func(chooseFile, frame, tab );
+                save_file_func(chooseFile, frame, tab);
             }
         });
 
         saveas.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                save_as_func(chooseFile, frame, tab );
+                save_as_func(chooseFile, frame, tab);
+            }
+        });
+
+        saveall.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                save_all_func(tab, chooseFile, frame);
             }
         });
 
@@ -419,13 +426,16 @@ public class Main {
             }
             System.out.println("Second " + chooseFile.getSelectedFile().getAbsolutePath());
 
-            int index = tab.getSelectedIndex();
+            int index = tab.getSelectedIndex();  //get index of the tab and set rename from "untitled"
             String currentTitle = tab.getTitleAt(index);
             File file_path = chooseFile.getSelectedFile();
 
             if(currentTitle.equals("Untitled")){
 
-                tab.setTitleAt(index, file_path.getName());
+                Component tabComponent = tab.getTabComponentAt(index);
+                JPanel panel = (JPanel) tabComponent;
+                JLabel label = (JLabel) panel.getComponent(0); // first component(0) is label
+                label.setText(file_path.getName());
 
                 map.remove("Untitled");
                 map.put(file_path.getName(), file_path.getAbsolutePath());
@@ -445,6 +455,64 @@ public class Main {
             }
         }
 
+    }
+
+    static void save_all_func(JTabbedPane tab, JFileChooser chooseFile, JFrame frame){
+        int tab_amount = tab.getTabCount();
+        int path_amount = map.size();
+        System.out.println("tab_amount = " + tab_amount);
+        System.out.println("path_amount = " + path_amount);
+
+        for(int i = 0; i < tab_amount; i++){
+            if(tab.getTitleAt(i).equals("Untitled")){
+                chooseFile.setCurrentDirectory(new File("D:\\D Documents\\CODE Program\\Java\\X Java Swing\\18 Select a file"));
+                int num = chooseFile.showSaveDialog(frame);
+                if(num == JFileChooser.APPROVE_OPTION){
+                    File file = chooseFile.getSelectedFile();
+                    String file_name = file.getName();
+
+                    JScrollPane pane = (JScrollPane) tab.getComponentAt(i);
+                    JViewport viewport = pane.getViewport();
+                    JTextArea current_textarea = (JTextArea) viewport.getView();
+
+                    if(tab.getTitleAt(i).equals("Untitled")){
+                        Component tabComponent = tab.getTabComponentAt(i);
+                        JPanel panel = (JPanel) tabComponent;
+                        JLabel label = (JLabel) panel.getComponent(0); // first component is label
+                        label.setText(file_name);
+                        map.put(file_name, chooseFile.getSelectedFile().getAbsolutePath());
+                    }
+
+                    try{
+                        FileWriter fr = new FileWriter(file);
+                        fr.write(current_textarea.getText());
+                        fr.close();
+                        tab.setTitleAt(i, file_name);
+                        map.put(file_name, chooseFile.getSelectedFile().getAbsolutePath());
+                    }catch(IOException ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+            }else{
+                String title_name =  tab.getTitleAt(i);
+                if(map.containsKey(title_name)){
+
+                    JScrollPane pane = (JScrollPane) tab.getComponentAt(i);
+                    JViewport viewport = pane.getViewport();
+                    JTextArea current_textarea = (JTextArea) viewport.getView();
+
+                    try{
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(map.get(title_name)));
+                        bw.write(current_textarea.getText());
+                        bw.close();
+                    }catch(IOException ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+        }
     }
 
 
