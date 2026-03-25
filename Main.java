@@ -55,6 +55,12 @@ public class Main {
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
+        //Save all Icon
+        ImageIcon save_all = new ImageIcon("save all.png");
+        Image sv = save_all.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        save_all = new ImageIcon(sv);
+
+
         // Insert Image icon
         ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
         Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
@@ -88,6 +94,7 @@ public class Main {
         JMenuItem saveas = new JMenuItem("Save as");
         saveas.setIcon(saveas_icon);
         JMenuItem saveall = new JMenuItem("Save all");
+        saveall.setIcon(save_all);
         JMenuItem closetab = new JMenuItem("Close Tab");
         closetab.setIcon(closetab_icon);
         JMenuItem exit = new JMenuItem("Exit");
@@ -97,8 +104,8 @@ public class Main {
         file.add(open); //actionListioned
         file.add(save); //actionListioned
         file.add(saveas); //actionListioned
-        file.add(saveall);
-        file.add(closetab);
+        file.add(saveall); //actionListened
+        file.add(closetab); //actionListened
         file.add(exit);
 
 /// ///////////////////////////////////////////////
@@ -210,6 +217,12 @@ public class Main {
         saveall.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 save_all_func(tab, chooseFile, frame);
+            }
+        });
+
+        closetab.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                close_tab(tab);
             }
         });
 
@@ -512,6 +525,15 @@ public class Main {
 
                 }
             }
+        }
+    }
+
+    static void close_tab(JTabbedPane tab){
+        int selected_tab = tab.getSelectedIndex();
+        String title_name = tab.getTitleAt(selected_tab);
+        tab.removeTabAt(selected_tab);
+        if(map.containsKey(title_name)){
+            map.remove(title_name);
         }
     }
 
