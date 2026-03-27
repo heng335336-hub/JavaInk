@@ -1,14 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
-import javax.swing.undo.UndoManager;
-import javax.swing.KeyStroke;
-import javax.swing.AbstractAction;
 import java.util.LinkedList;
 
 public class Main {
@@ -16,7 +11,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// Undo and Redo are ready
+        // /////////////////////////// enggggggg
         JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
@@ -26,7 +21,7 @@ public class Main {
         frame.setTitle("JavaInk - Untitled");
         // ///////////////////////////
 
-        //App Icon
+        //App Icon   //rrrrr
         ImageIcon icon = new ImageIcon("javaink.png");
         frame.setIconImage(icon.getImage());
 
@@ -60,18 +55,12 @@ public class Main {
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
-        //Save all Icon
-        ImageIcon save_all = new ImageIcon("save all.png");
-        Image sv = save_all.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
-        save_all = new ImageIcon(sv);
-
-
         // Insert Image icon
         ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
         Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertimg_icon = new ImageIcon(iimg);
 
-       // Insert Shape icon
+        // Insert Shape icon
         ImageIcon insertshape_icon = new ImageIcon("insertshape.png");
         Image ishape = insertshape_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertshape_icon = new ImageIcon(ishape);
@@ -99,7 +88,6 @@ public class Main {
         JMenuItem saveas = new JMenuItem("Save as");
         saveas.setIcon(saveas_icon);
         JMenuItem saveall = new JMenuItem("Save all");
-        saveall.setIcon(save_all);
         JMenuItem closetab = new JMenuItem("Close Tab");
         closetab.setIcon(closetab_icon);
         JMenuItem exit = new JMenuItem("Exit");
@@ -109,8 +97,8 @@ public class Main {
         file.add(open); //actionListioned
         file.add(save); //actionListioned
         file.add(saveas); //actionListioned
-        file.add(saveall); //actionListened
-        file.add(closetab); //actionListened
+        file.add(saveall);
+        file.add(closetab);
         file.add(exit);
 
 /// ///////////////////////////////////////////////
@@ -131,19 +119,33 @@ public class Main {
         edit.add(selectall);
         edit.add(paste);
 ////////////////////////////////////////////////////////////
+        // view icon
+        ImageIcon zoomin_icon=new ImageIcon("Free_black_zoom_in_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        Image zi = zoomin_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        zoomin_icon = new ImageIcon(zi);
+        ImageIcon zoomout_icon=new ImageIcon("Free_black_zoom_out_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        Image zo = zoomout_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        zoomout_icon = new ImageIcon(zo);
+        ImageIcon resetzoom_icon=new ImageIcon("reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
+        Image rz = resetzoom_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        resetzoom_icon = new ImageIcon(rz);
         JMenuItem zoomin = new JMenuItem("Zoom In");
         JMenuItem zoomout = new JMenuItem("Zoom Out");
         JMenuItem resetzoom = new JMenuItem("Reset Zoom");
         view.add(zoomin);
         view.add(zoomout);
         view.add(resetzoom);
+        /// /////////////////////////////////////
+        zoomin.setIcon(zoomin_icon);
+        zoomout.setIcon(zoomout_icon);
+        resetzoom.setIcon(resetzoom_icon);
 ///////////////////////////////////////////////////////////
         JMenuItem insertimage = new JMenuItem("Insert Image");
         insertimage.setIcon(insertimg_icon);
 
         JMenuItem insertshape = new JMenuItem("Insert Shape");
         insertshape.setIcon(insertshape_icon);
-        
+
         insert.add(insertimage);
         insert.add(insertshape);
 
@@ -225,12 +227,6 @@ public class Main {
             }
         });
 
-        closetab.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                close_tab(tab);
-            }
-        });
-
         tab.setPreferredSize(new Dimension(100, 20));
 
 
@@ -243,27 +239,6 @@ public class Main {
         instant_textarea.setBackground(new Color(40, 40, 40));
         instant_textarea.setForeground(new Color(255, 255, 255));
         instant_textarea.setCaretColor(Color.WHITE);
-
-        //undo redo
-        UndoManager undoManager = new UndoManager();
-        instant_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
-
-        instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
-        instant_textarea.getActionMap().put("undo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e) {
-                if(undoManager.canUndo()){
-                    undoManager.undo();
-                }
-            }
-        });
-        instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
-        instant_textarea.getActionMap().put("redo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e){
-                if(undoManager.canRedo()){
-                    undoManager.redo();
-                }
-            }
-        });
 
         JScrollPane scrollpane = new JScrollPane(instant_textarea);
         tab.addTab("Untitled", scrollpane);
@@ -315,27 +290,6 @@ public class Main {
         new_instant_textarea.setForeground(new Color(255, 255, 255));
         new_instant_textarea.setCaretColor(Color.WHITE);
 
-        //undo redo
-        UndoManager undoManager = new UndoManager();
-        new_instant_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
-
-        new_instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
-        new_instant_textarea.getActionMap().put("undo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e) {
-                if(undoManager.canUndo()){
-                    undoManager.undo();
-                }
-            }
-        });
-        new_instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
-        new_instant_textarea.getActionMap().put("redo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e){
-                if(undoManager.canRedo()){
-                    undoManager.redo();
-                }
-            }
-        });
-
         JScrollPane scrollpane = new JScrollPane(new_instant_textarea);
         tab.addTab("Untitled", scrollpane);
 
@@ -375,27 +329,6 @@ public class Main {
         new_textarea.setBackground(new Color(40, 40, 40));
         new_textarea.setForeground(new Color(255, 255, 255));
         new_textarea.setCaretColor(Color.WHITE);
-
-        //undo redo
-        UndoManager undoManager = new UndoManager();
-        new_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
-
-        new_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
-        new_textarea.getActionMap().put("undo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e) {
-                if(undoManager.canUndo()){
-                    undoManager.undo();
-                }
-            }
-        });
-        new_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
-        new_textarea.getActionMap().put("redo", new AbstractAction(){
-            public void actionPerformed(ActionEvent e){
-                if(undoManager.canRedo()){
-                    undoManager.redo();
-                }
-            }
-        });
 
         chooseFile.setCurrentDirectory(new File("D:\\D Documents\\CODE Program\\Java\\X Java Swing\\18 Select a file"));
         int result = chooseFile.showOpenDialog(frame);
@@ -593,15 +526,6 @@ public class Main {
 
                 }
             }
-        }
-    }
-
-    static void close_tab(JTabbedPane tab){
-        int selected_tab = tab.getSelectedIndex();
-        String title_name = tab.getTitleAt(selected_tab);
-        tab.removeTabAt(selected_tab);
-        if(map.containsKey(title_name)){
-            map.remove(title_name);
         }
     }
 
