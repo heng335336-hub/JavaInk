@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -240,6 +241,27 @@ public class Main {
         instant_textarea.setForeground(new Color(255, 255, 255));
         instant_textarea.setCaretColor(Color.WHITE);
 
+        //undo redo
+        UndoManager undoManager = new UndoManager();
+        instant_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
+
+        instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
+        instant_textarea.getActionMap().put("undo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e) {
+                if(undoManager.canUndo()){
+                    undoManager.undo();
+                }
+            }
+        });
+        instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
+        instant_textarea.getActionMap().put("redo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e){
+                if(undoManager.canRedo()){
+                    undoManager.redo();
+                }
+            }
+        });
+
         JScrollPane scrollpane = new JScrollPane(instant_textarea);
         tab.addTab("Untitled", scrollpane);
 
@@ -290,6 +312,27 @@ public class Main {
         new_instant_textarea.setForeground(new Color(255, 255, 255));
         new_instant_textarea.setCaretColor(Color.WHITE);
 
+        //undo redo
+        UndoManager undoManager = new UndoManager();
+        new_instant_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
+
+        new_instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
+        new_instant_textarea.getActionMap().put("undo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e) {
+                if(undoManager.canUndo()){
+                    undoManager.undo();
+                }
+            }
+        });
+        new_instant_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
+        new_instant_textarea.getActionMap().put("redo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e){
+                if(undoManager.canRedo()){
+                    undoManager.redo();
+                }
+            }
+        });
+
         JScrollPane scrollpane = new JScrollPane(new_instant_textarea);
         tab.addTab("Untitled", scrollpane);
 
@@ -329,6 +372,27 @@ public class Main {
         new_textarea.setBackground(new Color(40, 40, 40));
         new_textarea.setForeground(new Color(255, 255, 255));
         new_textarea.setCaretColor(Color.WHITE);
+
+        //undo redo
+        UndoManager undoManager = new UndoManager();
+        new_textarea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
+
+        new_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
+        new_textarea.getActionMap().put("undo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e) {
+                if(undoManager.canUndo()){
+                    undoManager.undo();
+                }
+            }
+        });
+        new_textarea.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
+        new_textarea.getActionMap().put("redo", new AbstractAction(){
+            public void actionPerformed(ActionEvent e){
+                if(undoManager.canRedo()){
+                    undoManager.redo();
+                }
+            }
+        });
 
         chooseFile.setCurrentDirectory(new File("D:\\D Documents\\CODE Program\\Java\\X Java Swing\\18 Select a file"));
         int result = chooseFile.showOpenDialog(frame);
