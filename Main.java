@@ -16,7 +16,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// enggggggg
+        // /////////////////////////// Undo and Redo are ready
         JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
