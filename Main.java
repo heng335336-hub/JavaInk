@@ -46,6 +46,11 @@ public class Main {
         Image sai = saveas_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         saveas_icon = new ImageIcon(sai);
 
+        //Save all Icon
+        ImageIcon save_all = new ImageIcon("save all.png");
+        Image sv = save_all.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
+        save_all = new ImageIcon(sv);
+
         //Close Tab Icon
         ImageIcon closetab_icon = new ImageIcon("closetab.png");
         Image cti = closetab_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
@@ -89,6 +94,7 @@ public class Main {
         JMenuItem saveas = new JMenuItem("Save as");
         saveas.setIcon(saveas_icon);
         JMenuItem saveall = new JMenuItem("Save all");
+        saveall.setIcon(save_all);
         JMenuItem closetab = new JMenuItem("Close Tab");
         closetab.setIcon(closetab_icon);
         JMenuItem exit = new JMenuItem("Exit");
@@ -227,6 +233,14 @@ public class Main {
                 save_all_func(tab, chooseFile, frame);
             }
         });
+
+        closetab.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                close_tab(tab);
+            }
+        });
+
+
 
         tab.setPreferredSize(new Dimension(100, 20));
 
@@ -590,6 +604,15 @@ public class Main {
 
                 }
             }
+        }
+    }
+
+    static void close_tab(JTabbedPane tab){
+        int selected_tab = tab.getSelectedIndex();
+        String title_name = tab.getTitleAt(selected_tab);
+        tab.removeTabAt(selected_tab);
+        if(map.containsKey(title_name)){
+            map.remove(title_name);
         }
     }
 
