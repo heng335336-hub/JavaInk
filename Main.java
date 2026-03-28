@@ -12,7 +12,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// enggggggg
+        // /////////////////////////// Redo Undo Icon(phanin,gekeng)
         JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
@@ -22,7 +22,7 @@ public class Main {
         frame.setTitle("JavaInk - Untitled");
         // ///////////////////////////
 
-        //App Icon   //rrrrr
+        //App Icon   //(Heng)
         ImageIcon icon = new ImageIcon("javaink.png");
         frame.setIconImage(icon.getImage());
 
@@ -61,7 +61,7 @@ public class Main {
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
-        // Insert Image icon
+        // Insert Image icon (Phanin)
         ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
         Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertimg_icon = new ImageIcon(iimg);
@@ -70,6 +70,17 @@ public class Main {
         ImageIcon insertshape_icon = new ImageIcon("insertshape.png");
         Image ishape = insertshape_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertshape_icon = new ImageIcon(ishape);
+
+        // view icon  (Gekeng)
+        ImageIcon zoomin_icon=new ImageIcon("Free_black_zoom_in_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        Image zi = zoomin_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        zoomin_icon = new ImageIcon(zi);
+        ImageIcon zoomout_icon=new ImageIcon("Free_black_zoom_out_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        Image zo = zoomout_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        zoomout_icon = new ImageIcon(zo);
+        ImageIcon resetzoom_icon=new ImageIcon("reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
+        Image rz = resetzoom_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        resetzoom_icon = new ImageIcon(rz);
 
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
@@ -126,16 +137,6 @@ public class Main {
         edit.add(selectall);
         edit.add(paste);
 ////////////////////////////////////////////////////////////
-        // view icon
-        ImageIcon zoomin_icon=new ImageIcon("Free_black_zoom_in_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
-        Image zi = zoomin_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
-        zoomin_icon = new ImageIcon(zi);
-        ImageIcon zoomout_icon=new ImageIcon("Free_black_zoom_out_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
-        Image zo = zoomout_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
-        zoomout_icon = new ImageIcon(zo);
-        ImageIcon resetzoom_icon=new ImageIcon("reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
-        Image rz = resetzoom_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
-        resetzoom_icon = new ImageIcon(rz);
         JMenuItem zoomin = new JMenuItem("Zoom In");
         JMenuItem zoomout = new JMenuItem("Zoom Out");
         JMenuItem resetzoom = new JMenuItem("Reset Zoom");
