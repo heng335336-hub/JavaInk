@@ -12,7 +12,7 @@ public class Main {
     static HashMap <String,String> map = new HashMap();
 
     public static void main(String[] args) {
-        // /////////////////////////// Redo Undo Icon(phanin,gekeng)
+        // /////////////////////////// Redo Undo Icon(phanin,gekeng) + images
         JFrame frame = new JFrame("JavaInk");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
