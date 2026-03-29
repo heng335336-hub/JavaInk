@@ -83,14 +83,17 @@ public class Main {
 
         //Theme Icon (Vansak)
         //Text color Icon
-        ImageIcon Text_color_Icon = new ImageIcon("text_color.png");
+        ImageIcon Text_color_Icon = new ImageIcon("text-format.png");
         Image TA = Text_color_Icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Text_color_Icon = new ImageIcon(TA);
         //All text color
-        ImageIcon all_text_color = new ImageIcon("text_all_color.png");
+        ImageIcon all_text_color = new ImageIcon("bucket.png");
         Image TAC = all_text_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         all_text_color = new ImageIcon(TAC);
-
+        //bg color
+        ImageIcon bg_color = new ImageIcon("paint.png");
+        Image BG = bg_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        bg_color = new ImageIcon(BG);
 
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
@@ -173,6 +176,7 @@ public class Main {
         JMenuItem alltextscolor = new JMenuItem("All Texts Color");
         alltextscolor.setIcon(all_text_color);
         JMenuItem backgroundcolor = new JMenuItem("Background Color");
+        backgroundcolor.setIcon(bg_color);
         theme.add(textscolor);
         theme.add(alltextscolor);
         theme.add(backgroundcolor);
@@ -181,6 +185,7 @@ public class Main {
 
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
+
         about.addActionListener(e -> {
             JOptionPane.showMessageDialog(
                     null,
