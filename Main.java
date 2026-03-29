@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class Main {
 
@@ -81,6 +80,17 @@ public class Main {
         ImageIcon resetzoom_icon=new ImageIcon("reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
         Image rz = resetzoom_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         resetzoom_icon = new ImageIcon(rz);
+
+        //Theme Icon (Vansak)
+        //Text color Icon
+        ImageIcon Text_color_Icon = new ImageIcon("text_color.png");
+        Image TA = Text_color_Icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Text_color_Icon = new ImageIcon(TA);
+        //All text color
+        ImageIcon all_text_color = new ImageIcon("text_all_color.png");
+        Image TAC = all_text_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        all_text_color = new ImageIcon(TAC);
+
 
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
@@ -159,11 +169,15 @@ public class Main {
 
 ///////////////////////////////////////////////////////////
         JMenuItem textscolor = new JMenuItem("Texts Color");
+        textscolor.setIcon(Text_color_Icon);
         JMenuItem alltextscolor = new JMenuItem("All Texts Color");
+        alltextscolor.setIcon(all_text_color);
         JMenuItem backgroundcolor = new JMenuItem("Background Color");
         theme.add(textscolor);
         theme.add(alltextscolor);
         theme.add(backgroundcolor);
+
+
 
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
