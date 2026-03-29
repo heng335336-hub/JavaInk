@@ -60,6 +60,11 @@ public class Main {
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
+        //About gif
+        ImageIcon about_gif = new ImageIcon("goose_walking.gif");
+        Image goose = about_gif.getImage().getScaledInstance(100,135, Image.SCALE_DEFAULT);
+        about_gif = new ImageIcon(goose);
+
         // Insert Image icon (Phanin)
         ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
         Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
@@ -128,8 +133,8 @@ public class Main {
         file.add(open); //actionListioned
         file.add(save); //actionListioned
         file.add(saveas); //actionListioned
-        file.add(saveall);
-        file.add(closetab);
+        file.add(saveall); //actionListioned
+        file.add(closetab); //actionListioned
         file.add(exit);
 
 /// ///////////////////////////////////////////////
@@ -186,12 +191,32 @@ public class Main {
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
 
+        JLabel about_label = new JLabel();
+        about_label.setIcon(about_gif);
+        about_label.setText("<html>If you find this app helpful<br>please subcribe<html>");
+        about_label.setIconTextGap(1);
+        about_label.setForeground(new Color(165, 88, 0));
+        about_label.setPreferredSize(new Dimension(100, 197));
+
+        ImageIcon about_icon = new ImageIcon("javaink.png");
+        Image about_icon2 =  about_icon.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT);
+        final ImageIcon about_icon_final = new ImageIcon(about_icon2);
+
         about.addActionListener(e -> {
-            JOptionPane.showMessageDialog(
+            String[] array = {"Yes" , "No" , "Not interesting"};
+            JOptionPane.showOptionDialog(null,
+                    about_label,
+                    "About",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    about_icon_final,
+                    array,
+                    null);
+            /*JOptionPane.showMessageDialog(
                     null,
                     "If you find this app helpful pls subcribe",
                     "Help",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);*/
         });
         help.add(about);
         // ////////////////////////////////
