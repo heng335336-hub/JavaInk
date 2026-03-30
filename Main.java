@@ -128,12 +128,12 @@ public class Main {
 
         //Copy
         ImageIcon Copy = new ImageIcon("copy.png");
-        Image CY = Replace.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Image CY = Copy.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Copy = new ImageIcon(CY);
 
         //Select all
         ImageIcon Selectall = new ImageIcon("select_all.png");
-        Image SA = Replace.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Image SA = Selectall.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Selectall = new ImageIcon(SA);
 
         //Paste
