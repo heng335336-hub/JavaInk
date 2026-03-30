@@ -1,14 +1,19 @@
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
 import java.util.HashMap;
 
 public class Main {
 
     static HashMap <String,String> map = new HashMap();
+    static int number_ch = 0;
 
     public static void main(String[] args) {
         // /////////////////////////// Redo Undo Icon(phanin,gekeng) + images
@@ -293,7 +298,6 @@ public class Main {
         frame.setJMenuBar(menubar);
         //frame.add(scroll, BorderLayout.CENTER);
         frame.add(tab, BorderLayout.CENTER);
-        frame.add(underinfo, BorderLayout.SOUTH);
 
         JTextArea instant_textarea = new JTextArea();
         instant_textarea.setBackground(new Color(40, 40, 40));
@@ -352,8 +356,13 @@ public class Main {
 
         map.put("Untitled", null);
 
+        instant_textarea.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e)  { update(tab, label); }
+            public void removeUpdate(DocumentEvent e)  { update(tab, label); }
+            public void changedUpdate(DocumentEvent e) { update(tab, label); }
+        });
 
-
+        frame.add(underinfo, BorderLayout.SOUTH);
         frame.setVisible(true);
 
     }
@@ -661,5 +670,14 @@ public class Main {
         }
     }
 
+    static void update(JTabbedPane tab, JLabel label) {
+        JScrollPane scrollpane = (JScrollPane) tab.getSelectedComponent();
+        JTextArea textarea = (JTextArea) scrollpane.getViewport().getView();
+        String texts = textarea.getText();
+        label.setText("Window | UTF-8 | Line: " + texts.split("\n", -1).length + " , Char: " + texts.length());
+    }
+
 
 }
+
+
