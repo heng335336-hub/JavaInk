@@ -105,6 +105,52 @@ public class Main {
         Image BG = bg_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         bg_color = new ImageIcon(BG);
 
+        //Edit Icon (Vansak)
+        //Find
+        ImageIcon Find = new ImageIcon("find.png");
+        Image FI = Find.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Find = new ImageIcon(FI);
+
+        //Find next
+        ImageIcon FindNext = new ImageIcon("find_next.png");
+        Image FN = FindNext.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        FindNext = new ImageIcon(FN);
+
+        //Find Previous
+        ImageIcon FindPrev = new ImageIcon("find_prev.png");
+        Image FP = FindPrev.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        FindPrev = new ImageIcon(FP);
+
+        //Replace
+        ImageIcon Replace = new ImageIcon("replace.png");
+        Image RP = Replace.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Replace = new ImageIcon(RP);
+
+        //Cut
+        ImageIcon Cut = new ImageIcon("cut.png");
+        Image CT = Cut.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Cut = new ImageIcon(CT);
+
+        //Copy
+        ImageIcon Copy = new ImageIcon("copy.png");
+        Image CY = Copy.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Copy = new ImageIcon(CY);
+
+        //Select all
+        ImageIcon Selectall = new ImageIcon("select_all.png");
+        Image SA = Selectall.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Selectall = new ImageIcon(SA);
+
+        //Paste
+        ImageIcon Paste = new ImageIcon("paste.png");
+        Image P = Paste.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        Paste = new ImageIcon(P);
+
+        //About Icon
+        ImageIcon About = new ImageIcon("about.png");
+        Image a = About.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        About = new ImageIcon(a);
+
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
 
@@ -144,13 +190,21 @@ public class Main {
 
 /// ///////////////////////////////////////////////
         JMenuItem find = new JMenuItem("Find");
+        find.setIcon(Find);
         JMenuItem findnext = new JMenuItem("Find Next");
+        findnext.setIcon(FindNext);
         JMenuItem findprev = new JMenuItem("Find Previous");
+        findprev.setIcon(FindPrev);
         JMenuItem replace = new JMenuItem("Replace");
+        replace.setIcon(Replace);
         JMenuItem cut = new JMenuItem("Cut");
+        cut.setIcon(Cut);
         JMenuItem copy = new JMenuItem("Copy");
+        copy.setIcon(Copy);
         JMenuItem selectall = new JMenuItem("Select All");
+        selectall.setIcon(Selectall);
         JMenuItem paste = new JMenuItem("Paste");
+        paste.setIcon(Paste);
         edit.add(find);
         edit.add(findnext);
         edit.add(findprev);
@@ -195,6 +249,7 @@ public class Main {
 
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
+         about.setIcon(About);
 
         JLabel about_label = new JLabel();
         about_label.setIcon(about_gif);
