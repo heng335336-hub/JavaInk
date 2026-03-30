@@ -141,6 +141,11 @@ public class Main {
         Image P = Paste.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Paste = new ImageIcon(P);
 
+        //About Icon
+        ImageIcon About = new ImageIcon("about.png");
+        Image a = About.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
+        About = new ImageIcon(a);
+
         // ///////////////////////////
         JMenuBar menubar = new JMenuBar();
 
@@ -239,6 +244,7 @@ public class Main {
 
 ////////////////////////////////////////////////////////////
         JMenuItem about = new JMenuItem("About");
+         about.setIcon(About);
 
         JLabel about_label = new JLabel();
         about_label.setIcon(about_gif);
