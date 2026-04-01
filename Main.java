@@ -10,14 +10,17 @@ import java.awt.event.ComponentEvent;
 import java.io.*;
 import java.util.HashMap;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 public class Main {
 
     static HashMap <String,String> map = new HashMap();
     static int number_ch = 0;
 
     public static void main(String[] args) {
-        // /////////////////////////// Redo Undo Icon(phanin,gekeng) + images
-        JFrame frame = new JFrame("JavaInk");
+        FlatDarkLaf.setup();
+        // /////////////////////////// 
+        JFrame frame = new JFrame("JavaInk"); //Character count and Line count
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);
@@ -311,7 +314,7 @@ public class Main {
         /// ///////////////////////////////////////////////////
         newfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new_file_func(newfile, textarea, frame, tab );
+                new_file_func(newfile, textarea, frame, tab, label);
             }
         });
 
@@ -422,7 +425,7 @@ public class Main {
 
     }
 
-    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame, JTabbedPane tab) {
+    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame, JTabbedPane tab, JLabel label) {
 
         FileWriter currentFile = null;
 
@@ -434,6 +437,12 @@ public class Main {
         new_instant_textarea.setBackground(new Color(40, 40, 40));
         new_instant_textarea.setForeground(new Color(255, 255, 255));
         new_instant_textarea.setCaretColor(Color.WHITE);
+
+        new_instant_textarea.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e)  { update(tab, label); }
+            public void removeUpdate(DocumentEvent e)  { update(tab, label); }
+            public void changedUpdate(DocumentEvent e) { update(tab, label); }
+        });
 
         //undo redo
         UndoManager undoManager = new UndoManager();
@@ -460,7 +469,7 @@ public class Main {
         tab.addTab("Untitled", scrollpane);
 
         int index = tab.indexOfComponent(scrollpane);
-        JLabel label = new JLabel("Untitled");
+        JLabel label2 = new JLabel("Untitled");
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 0));
@@ -480,7 +489,7 @@ public class Main {
             }
         });
 
-        panel.add(label);
+        panel.add(label2);
         panel.add(button);
 
         tab.setTabComponentAt(index, panel); //top UI
