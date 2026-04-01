@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
@@ -12,15 +13,14 @@ import java.util.HashMap;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
-public class Main {
+public class Main { 
 
     static HashMap <String,String> map = new HashMap();
     static int number_ch = 0;
-
-    public static void main(String[] args) {
+    public static void main(String[] args) { // ah kdor thom
         FlatDarkLaf.setup();
-        // /////////////////////////// 
-        JFrame frame = new JFrame("JavaInk"); //Character count and Line count
+        // ///////////////////////////  hi 
+        JFrame frame = new JFrame("JavaInk"); //Character count and Line count func
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);

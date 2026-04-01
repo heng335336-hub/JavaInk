@@ -3,6 +3,6 @@
         "."
     ],
     "java.project.referencedLibraries": [
-        "d:\\D Downloads\\App Software\\flatlaf-3.7.1.jar"
+        "lib/flatlaf-3.7.1.jar"
     ]
 }
