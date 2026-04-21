@@ -17,11 +17,11 @@ public class Main {
 
     static HashMap <String,String> map = new HashMap();
     static int number_ch = 0;
-    public static void main(String[] args) { // ah kdor thom
+    public static void main(String[] args) { 
         FlatDarkLaf.setup();
-        // ///////////////////////////  hi 
-        JFrame frame = new JFrame("JavaInk"); //Character count and Line count func
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // ///////////////////////////  
+        JFrame frame = new JFrame("JavaInk"); //Character count and Line count func2 , test
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
@@ -348,7 +348,17 @@ public class Main {
             }
         });
 
+        exit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                exit_func(frame);
+            }
+        });
 
+        find.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                FindText(scroll,frame, tab);
+            }
+        });
 
         tab.setPreferredSize(new Dimension(100, 20));
 
@@ -504,6 +514,7 @@ public class Main {
         new_textarea.setBackground(new Color(40, 40, 40));
         new_textarea.setForeground(new Color(255, 255, 255));
         new_textarea.setCaretColor(Color.WHITE);
+        
 
         //undo redo
         UndoManager undoManager = new UndoManager();
@@ -739,6 +750,42 @@ public class Main {
         JTextArea textarea = (JTextArea) scrollpane.getViewport().getView();
         String texts = textarea.getText();
         label.setText("Window | UTF-8 | Line: " + texts.split("\n", -1).length + " , Char: " + texts.length());
+    }
+
+    static void exit_func(JFrame frame){
+        frame.dispose();
+    }
+
+    static void FindText(JScrollPane scroll, JFrame frame, JTabbedPane tab){
+        JDialog dialog = new JDialog(frame, "Find", false);
+        dialog.setLayout(new FlowLayout());
+        dialog.setSize(250,100);
+        dialog.setLocationRelativeTo(null);
+        JLabel label = new JLabel("Enter the text you want to find:   ");
+
+        JButton findBtn = new JButton("Find");
+
+        JTextField field = new JTextField();
+        dialog.add(label);
+        dialog.add(field);
+        dialog.add(findBtn);
+        dialog.setVisible(true);
+
+        findBtn.addActionListener(e ->{
+
+            String target_word =  field.getText();
+            JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = scrollPane.getViewport();
+            JTextArea current_textarea = (JTextArea) viewport.getView();
+            String content =  current_textarea.getText();
+
+            int index = content.indexOf(target_word);
+            if(index >= 0){
+                current_textarea.setCaretPosition(index);
+                current_textarea.select(index, index + target_word.length());
+                current_textarea.requestFocusInWindow();
+            }
+        });
     }
 
 
