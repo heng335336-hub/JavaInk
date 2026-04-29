@@ -4,10 +4,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.util.HashMap;
 
@@ -606,24 +603,30 @@ public class Main {
 
     public static void save_file_func(JFileChooser chooseFile,  JFrame frame, JTabbedPane tab) {
 
-        int index = tab.getSelectedIndex();
-        String file_name = tab.getTitleAt(index);
-        String file_path = map.get(file_name);
+        int ind = tab.getSelectedIndex();
+        if(tab.getTitleAt(ind).equals("Untitled")){
+            save_as_func(chooseFile,frame,tab);
+        }else {
+            int index = tab.getSelectedIndex();
+            String file_name = tab.getTitleAt(index);
+            String file_path = map.get(file_name);
 
-        JScrollPane pane = (JScrollPane) tab.getSelectedComponent();
-        JViewport viewport = pane.getViewport();
-        JTextArea textarea = (JTextArea) viewport.getView();
+            JScrollPane pane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = pane.getViewport();
+            JTextArea textarea = (JTextArea) viewport.getView();
 
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file_path));
-            bw.write(textarea.getText());
-            bw.close();
-        }catch(IOException ex){
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Failed to save file", "Error", JOptionPane.ERROR_MESSAGE);
+            try{
+                BufferedWriter bw = new BufferedWriter(new FileWriter(file_path));
+                bw.write(textarea.getText());
+                bw.close();
+            }catch(IOException ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to save file", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
-    }
 
+    }
     public static void save_as_func(JFileChooser chooseFile, JFrame frame, JTabbedPane tab) {
         chooseFile.setCurrentDirectory(new File("D:\\D Documents\\CODE Program\\Java\\X Java Swing\\18 Select a file"));
         int result = chooseFile.showSaveDialog(frame);
@@ -634,7 +637,6 @@ public class Main {
             JScrollPane pane = (JScrollPane) tab.getSelectedComponent();
             JViewport viewport = pane.getViewport();
             JTextArea current_textarea = (JTextArea) viewport.getView();
-
             try{
                 BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
@@ -771,6 +773,24 @@ public class Main {
         dialog.add(findBtn);
         dialog.setVisible(true);
 
+        field.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    String target_word =  field.getText();
+                    JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+                    JViewport viewport = scrollPane.getViewport();
+                    JTextArea current_textarea = (JTextArea) viewport.getView();
+                    String content =  current_textarea.getText();
+
+                    int index = content.indexOf(target_word);
+                    if(index >= 0){
+                        current_textarea.setCaretPosition(index);
+                        current_textarea.select(index, index + target_word.length());
+                        current_textarea.requestFocusInWindow();
+                    }
+                }
+            }
+        });
         findBtn.addActionListener(e ->{
 
             String target_word =  field.getText();
