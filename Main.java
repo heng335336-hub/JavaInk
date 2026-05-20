@@ -357,6 +357,25 @@ public class Main {
             }
         });
 
+        /////////////////////////////////////zoom//////////////////////////////////////
+        zoomin.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                zoom_func(tab, 2);
+            }
+        });
+
+        zoomout.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                zoom_func(tab, -2);
+            }
+        });
+
+        resetzoom.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                zoom_func(tab, 0);
+            }
+        });
+
         tab.setPreferredSize(new Dimension(100, 20));
 
 
@@ -758,7 +777,22 @@ public class Main {
     static void exit_func(JFrame frame){ //disable app, shutdown app
         frame.dispose();
     } //close app
-
+    ///////////////////////////zoom///////////////////////////////////////////////////
+    static void zoom_func(JTabbedPane tab, int change) {
+        JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+        JViewport viewport = scrollPane.getViewport();
+        JTextArea textarea = (JTextArea) viewport.getView();
+        Font currentFont = textarea.getFont();
+        float newSize;
+        if (change == 0) {
+            newSize = 14f;
+        } else {
+            newSize = currentFont.getSize() + change;
+            if (newSize < 6) newSize = 6;
+            if (newSize > 72) newSize = 72;
+        }
+        textarea.setFont(currentFont.deriveFont(newSize));
+    }
     static void FindText(JScrollPane scroll, JFrame frame, JTabbedPane tab){ //find text at specific index
         JDialog dialog = new JDialog(frame, "Find", false); //dialog is a small frame
         dialog.setLayout(new FlowLayout()); //layout
