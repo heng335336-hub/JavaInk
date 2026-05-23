@@ -206,8 +206,6 @@ public class Main {
         JMenuItem paste = new JMenuItem("Paste");
         paste.setIcon(Paste);
         edit.add(find);
-        edit.add(findnext);
-        edit.add(findprev);
         edit.add(replace);
         edit.add(cut);
         edit.add(copy);
@@ -809,7 +807,7 @@ public class Main {
         dialog.add(findBtn);
         dialog.add(findNext); //use dialog to add every component
         dialog.setVisible(true); //set to visible mean can view and appear
-
+        final int[] currentIndex = {-1};
         field.addKeyListener(new KeyAdapter() { //set key , when we press key on keyboard then it also work
             public void keyPressed(KeyEvent e) { //key press void
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){ //getkeycode mean to press to key then it check if we press Enter key
@@ -822,14 +820,17 @@ public class Main {
                     String content =  current_textarea.getText(); //save whole texts to content
 
                     int index = content.indexOf(target_word); //find index of texts in content var and save to index var
+                    currentIndex[0] = index; //currentIndex store the number of word if 5 store 5
                     if(index >= 0){
                         current_textarea.setCaretPosition(index); //set | to the text we want to find
                         current_textarea.select(index, index + target_word.length()); //select the text we found , but not yet seen by our view
                         current_textarea.requestFocusInWindow(); //to seen by our view let the request focus in window
                     }
+                    findNext.setEnabled(true);
                 }
             }
         });
+        findNext.setEnabled(false);
         findBtn.addActionListener(e ->{ //find button action, same role as Enter key
 
             String target_word =  field.getText();
@@ -839,6 +840,26 @@ public class Main {
             String content =  current_textarea.getText();
 
             int index = content.indexOf(target_word);
+            currentIndex[0] = index; //if text find at pos 5 it save 5
+            System.out.println(index);
+            if(index >= 0){
+                current_textarea.setCaretPosition(index);
+                current_textarea.select(index, index + target_word.length());
+                current_textarea.requestFocusInWindow();
+            }
+            findNext.setEnabled(true);
+        });
+        findNext.addActionListener(e ->{ //find next button action, same role as Enter key
+
+            String target_word =  field.getText();
+            JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = scrollPane.getViewport();
+            JTextArea current_textarea = (JTextArea) viewport.getView();
+            String content =  current_textarea.getText();
+
+            int index = content.indexOf(target_word, currentIndex[0] + 1);//if first word find at pos 5 then 5+1 = 6, it start find more from pos 6
+            currentIndex[0] = index;
+            System.out.println(index);
             if(index >= 0){
                 current_textarea.setCaretPosition(index);
                 current_textarea.select(index, index + target_word.length());
