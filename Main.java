@@ -2,6 +2,9 @@
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.*;
@@ -309,7 +312,7 @@ public class Main {
         /// /////////////////////////////////////////////////// set the action and role to them (jmenu)
         newfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new_file_func(newfile, textarea, frame, tab, label);
+                new_file_func(newfile, textarea, frame, tab, label, scroll);
             }
         });
 
@@ -409,6 +412,13 @@ public class Main {
 
         JScrollPane scrollpane = new JScrollPane(instant_textarea); //scrollpane make textarea can scroll
         tab.addTab("Untitled", scrollpane); //put the first tab to tab item
+        instant_textarea.addKeyListener(new  KeyAdapter() {
+            public void keyPressed(KeyEvent e){
+                if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F){
+                    FindText(scroll, frame, tab);
+                }
+            }
+        });
 
         int index = tab.indexOfComponent(scrollpane);
         JLabel instant_label = new JLabel("Untitled");
@@ -449,7 +459,7 @@ public class Main {
 
     }
 
-    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame, JTabbedPane tab, JLabel label) {
+    public static void new_file_func(JMenuItem newfile, JTextArea textarea, JFrame frame, JTabbedPane tab, JLabel label, JScrollPane scroll) {
 
         FileWriter currentFile = null;
 
@@ -461,6 +471,14 @@ public class Main {
         new_instant_textarea.setBackground(new Color(40, 40, 40));
         new_instant_textarea.setForeground(new Color(255, 255, 255));
         new_instant_textarea.setCaretColor(Color.WHITE);
+
+        new_instant_textarea.addKeyListener(new  KeyAdapter() {
+            public void keyPressed(KeyEvent e){
+                if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F){
+                    FindText(scroll, frame, tab);
+                }
+            }
+        });
 
         new_instant_textarea.getDocument().addDocumentListener(new DocumentListener() {  //these three functions can't alter the name
             public void insertUpdate(DocumentEvent e)  { update(tab, label); } //called update function to count text when first input
@@ -528,7 +546,13 @@ public class Main {
         new_textarea.setBackground(new Color(40, 40, 40));
         new_textarea.setForeground(new Color(255, 255, 255));
         new_textarea.setCaretColor(Color.WHITE);
-        
+        new_textarea.addKeyListener(new  KeyAdapter() {
+            public void keyPressed(KeyEvent e){
+                if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F){
+                    FindText(scroll, frame, tab);
+                }
+            }
+        });
 
         //undo redo
         UndoManager undoManager = new UndoManager();
@@ -794,18 +818,23 @@ public class Main {
     static void FindText(JScrollPane scroll, JFrame frame, JTabbedPane tab){ //find text at specific index
         JDialog dialog = new JDialog(frame, "Find", false); //dialog is a small frame
         dialog.setLayout(new FlowLayout()); //layout
-        dialog.setSize(250,100); //size
+        dialog.setSize(600,140); //size
         dialog.setLocationRelativeTo(null); //located in the middle of screen
         JLabel label = new JLabel("Enter the text you want to find:   "); //label for guide
 
         JButton findBtn = new JButton("Find"); //button for action to find after we type the word we want to find
-        JButton findNext = new  JButton("Next"); /// not yet develope
+        JButton findNext = new  JButton("Next");
+        JButton findPrev = new  JButton("Prev");
+        JButton findAll = new  JButton("All");
 
         JTextField field = new JTextField(); //text field is for user input
+        field.setPreferredSize(new Dimension(300,30));
         dialog.add(label);
         dialog.add(field);
         dialog.add(findBtn);
         dialog.add(findNext); //use dialog to add every component
+        dialog.add(findPrev);
+        dialog.add(findAll);
         dialog.setVisible(true); //set to visible mean can view and appear
         final int[] currentIndex = {-1};
         field.addKeyListener(new KeyAdapter() { //set key , when we press key on keyboard then it also work
@@ -831,6 +860,8 @@ public class Main {
             }
         });
         findNext.setEnabled(false);
+        findPrev.setEnabled(false);
+        findAll.setEnabled(false);
         findBtn.addActionListener(e ->{ //find button action, same role as Enter key
 
             String target_word =  field.getText();
@@ -848,6 +879,8 @@ public class Main {
                 current_textarea.requestFocusInWindow();
             }
             findNext.setEnabled(true);
+            findPrev.setEnabled(true);
+            findAll.setEnabled(true);
         });
         findNext.addActionListener(e ->{ //find next button action, same role as Enter key
 
@@ -864,6 +897,48 @@ public class Main {
                 current_textarea.setCaretPosition(index);
                 current_textarea.select(index, index + target_word.length());
                 current_textarea.requestFocusInWindow();
+            }
+        });
+
+        findPrev.addActionListener(e ->{ //find next button action, same role as Enter key
+
+            String target_word =  field.getText();
+            JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = scrollPane.getViewport();
+            JTextArea current_textarea = (JTextArea) viewport.getView();
+            String content =  current_textarea.getText();
+
+            int index = content.lastIndexOf(target_word, currentIndex[0] - 1);//if first word find at pos 5 then 5+1 = 6, it start find more from pos 6
+            currentIndex[0] = index;
+            System.out.println(index);
+            if(index >= 0){
+                current_textarea.setCaretPosition(index);
+                current_textarea.select(index, index + target_word.length());
+                current_textarea.requestFocusInWindow();
+            }
+        });
+
+        findAll.addActionListener(e->{
+            String target_word =  field.getText();
+            JScrollPane scrollPane = (JScrollPane) tab.getSelectedComponent();
+            JViewport viewport = scrollPane.getViewport();
+            JTextArea current_textarea = (JTextArea) viewport.getView();
+            String content =  current_textarea.getText();
+
+            Highlighter highlighter = current_textarea.getHighlighter(); // get from textarea
+            highlighter.removeAllHighlights();
+
+            Highlighter.HighlightPainter painter =
+                    new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 224, 0, 145));
+
+            int index = 0;
+            while ((index = content.indexOf(target_word, index)) >= 0) {
+                try {
+                    highlighter.addHighlight(index, index + target_word.length(), painter);
+                    index += target_word.length();
+                } catch (BadLocationException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
