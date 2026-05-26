@@ -1,0 +1,10 @@
+{
+    "type": "java",
+    "name": "Launch Java App",
+    "request": "launch",
+    "mainClass": "Main",
+    "classPaths": [
+        "${workspaceFolder}/lib/flatlaf-3.7.1.jar",
+        "${workspaceFolder}"
+    ]
+}

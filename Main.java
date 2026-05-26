@@ -30,127 +30,127 @@ public class Main {
         // ///////////////////////////
 
         //App Icon   //(Heng)
-        ImageIcon icon = new ImageIcon("javaink.png");
+        ImageIcon icon = new ImageIcon("pngs/javaink.png");
         frame.setIconImage(icon.getImage());
 
         //New file icon
-        ImageIcon newfile_icon = new ImageIcon("newfile.png");
+        ImageIcon newfile_icon = new ImageIcon("pngs/newfile.png");
         Image nfi = newfile_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         newfile_icon = new ImageIcon(nfi);
 
         //Open file icon
-        ImageIcon open_icon = new ImageIcon("open.png");
+        ImageIcon open_icon = new ImageIcon("pngs/open.png");
         Image oi = open_icon.getImage().getScaledInstance(17,18, Image.SCALE_AREA_AVERAGING);
         open_icon = new ImageIcon(oi);
 
         //Save file icon
-        ImageIcon save_icon = new ImageIcon("save.png");
+        ImageIcon save_icon = new ImageIcon("pngs/save.png");
         Image si = save_icon.getImage().getScaledInstance(17,18, Image.SCALE_AREA_AVERAGING);
         save_icon = new ImageIcon(si);
 
         //Save as icon
-        ImageIcon saveas_icon = new ImageIcon("saveas.png");
+        ImageIcon saveas_icon = new ImageIcon("pngs/saveas.png");
         Image sai = saveas_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         saveas_icon = new ImageIcon(sai);
 
         //Save all Icon
-        ImageIcon save_all = new ImageIcon("save all.png");
+        ImageIcon save_all = new ImageIcon("pngs/save all.png");
         Image sv = save_all.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         save_all = new ImageIcon(sv);
 
         //Close Tab Icon
-        ImageIcon closetab_icon = new ImageIcon("closetab.png");
+        ImageIcon closetab_icon = new ImageIcon("pngs/closetab.png");
         Image cti = closetab_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         closetab_icon = new ImageIcon(cti);
 
         //Exit icon
-        ImageIcon exit_icon = new ImageIcon("exit.png");
+        ImageIcon exit_icon = new ImageIcon("pngs/exit.png");
         Image ei = exit_icon.getImage().getScaledInstance(20,21, Image.SCALE_AREA_AVERAGING);
         exit_icon = new ImageIcon(ei);
 
         //About gif
-        ImageIcon about_gif = new ImageIcon("goose_walking.gif");
+        ImageIcon about_gif = new ImageIcon("pngs/goose_walking.gif");
         Image goose = about_gif.getImage().getScaledInstance(100,135, Image.SCALE_DEFAULT);
         about_gif = new ImageIcon(goose);
 
         // Insert Image icon (Phanin)
-        ImageIcon insertimg_icon = new ImageIcon("insertimage.png");
+        ImageIcon insertimg_icon = new ImageIcon("pngs/insertimage.png");
         Image iimg = insertimg_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertimg_icon = new ImageIcon(iimg);
 
         // Insert Shape icon
-        ImageIcon insertshape_icon = new ImageIcon("insertshape.png");
+        ImageIcon insertshape_icon = new ImageIcon("pngs/insertshape.png");
         Image ishape = insertshape_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         insertshape_icon = new ImageIcon(ishape);
 
         // view icon  (Gekeng)
-        ImageIcon zoomin_icon=new ImageIcon("Free_black_zoom_in_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        ImageIcon zoomin_icon=new ImageIcon("pngs/Free_black_zoom_in_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
         Image zi = zoomin_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         zoomin_icon = new ImageIcon(zi);
-        ImageIcon zoomout_icon=new ImageIcon("Free_black_zoom_out_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
+        ImageIcon zoomout_icon=new ImageIcon("pngs/Free_black_zoom_out_icon_vector_png_cad_-_Pixsector__Free_vector_images__mockups__PSDs_and_photos-removebg-preview.png");
         Image zo = zoomout_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         zoomout_icon = new ImageIcon(zo);
-        ImageIcon resetzoom_icon=new ImageIcon("reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
+        ImageIcon resetzoom_icon=new ImageIcon("pngs/reset_Icon_-_Free_PNG___SVG_1921187_-_Noun_Project-removebg-preview.png");
         Image rz = resetzoom_icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         resetzoom_icon = new ImageIcon(rz);
 
         //Theme Icon (Vansak)
         //Text color Icon
-        ImageIcon Text_color_Icon = new ImageIcon("text-format.png");
+        ImageIcon Text_color_Icon = new ImageIcon("pngs/text-format.png");
         Image TA = Text_color_Icon.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Text_color_Icon = new ImageIcon(TA);
         //All text color
-        ImageIcon all_text_color = new ImageIcon("bucket.png");
+        ImageIcon all_text_color = new ImageIcon("pngs/bucket.png");
         Image TAC = all_text_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         all_text_color = new ImageIcon(TAC);
         //bg color
-        ImageIcon bg_color = new ImageIcon("paint.png");
+        ImageIcon bg_color = new ImageIcon("pngs/paint.png");
         Image BG = bg_color.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         bg_color = new ImageIcon(BG);
 
         //Edit Icon (Vansak)
         //Find
-        ImageIcon Find = new ImageIcon("find.png");
+        ImageIcon Find = new ImageIcon("pngs/find.png");
         Image FI = Find.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Find = new ImageIcon(FI);
 
         //Find next
-        ImageIcon FindNext = new ImageIcon("find_next.png");
+        ImageIcon FindNext = new ImageIcon("pngs/find_next.png");
         Image FN = FindNext.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         FindNext = new ImageIcon(FN);
 
         //Find Previous
-        ImageIcon FindPrev = new ImageIcon("find_prev.png");
+        ImageIcon FindPrev = new ImageIcon("pngs/find_prev.png");
         Image FP = FindPrev.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         FindPrev = new ImageIcon(FP);
 
         //Replace
-        ImageIcon Replace = new ImageIcon("replace.png");
+        ImageIcon Replace = new ImageIcon("pngs/replace.png");
         Image RP = Replace.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Replace = new ImageIcon(RP);
 
         //Cut
-        ImageIcon Cut = new ImageIcon("cut.png");
+        ImageIcon Cut = new ImageIcon("pngs/cut.png");
         Image CT = Cut.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Cut = new ImageIcon(CT);
 
         //Copy
-        ImageIcon Copy = new ImageIcon("copy.png");
+        ImageIcon Copy = new ImageIcon("pngs/copy.png");
         Image CY = Copy.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Copy = new ImageIcon(CY);
 
         //Select all
-        ImageIcon Selectall = new ImageIcon("select_all.png");
+        ImageIcon Selectall = new ImageIcon("pngs/select_all.png");
         Image SA = Selectall.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Selectall = new ImageIcon(SA);
 
         //Paste
-        ImageIcon Paste = new ImageIcon("paste.png");
+        ImageIcon Paste = new ImageIcon("pngs/paste.png");
         Image P = Paste.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         Paste = new ImageIcon(P);
 
         //About Icon
-        ImageIcon About = new ImageIcon("about.png");
+        ImageIcon About = new ImageIcon("pngs/about.png");
         Image a = About.getImage().getScaledInstance(18,18, Image.SCALE_AREA_AVERAGING);
         About = new ImageIcon(a);
 
@@ -164,7 +164,7 @@ public class Main {
         JMenu theme = new JMenu("Theme");
         JMenu help = new JMenu("Help");
         // /////////////////////////////
-        ImageIcon icon_java = new ImageIcon("javaink.png");
+        ImageIcon icon_java = new ImageIcon("pngs/javaink.png");
         frame.setIconImage(icon_java.getImage());
         // /////////////////////////////
 /// /////////////////////////////////////////////////
@@ -259,7 +259,7 @@ public class Main {
         about_label.setForeground(new Color(165, 88, 0));
         about_label.setPreferredSize(new Dimension(100, 197));
 
-        ImageIcon about_icon = new ImageIcon("javaink.png");
+        ImageIcon about_icon = new ImageIcon("pngs/javaink.png");
         Image about_icon2 =  about_icon.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT);
         final ImageIcon about_icon_final = new ImageIcon(about_icon2);
 
@@ -941,6 +941,7 @@ public class Main {
                 }
             }
         });
+
 
 
     }
