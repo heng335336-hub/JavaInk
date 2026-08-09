@@ -766,7 +766,7 @@ public class Main {
         }
     }
 
-    static void save_all_func(JTabbedPane tab, JFileChooser chooseFile, JFrame frame) {
+    static void save_all_func(JTabbedPane tab, JFileChooser chooseFile, JFrame frame) { //
         int tabCount = tab.getTabCount();                       // how many tabs are currently open
         for (int i = 0; i < tabCount; i++) {                    // walk every open tab
             Component c = tab.getComponentAt(i);                 // this tab's content
