@@ -9,6 +9,9 @@ import javax.swing.undo.UndoManager;                      // tracks edits so Ctr
 import java.awt.*;                                          // Color, Dimension, Font, layouts, etc.
 import java.awt.event.*;                                    // KeyEvent, ActionEvent, KeyAdapter, WindowAdapter...
 import java.io.*;                                            // File, streams and readers/writers for saving/loading
+import java.util.List;                                      // used by the Custom > Saved Paths feature
+import java.util.ArrayList;                                 // used by the Custom > Saved Paths feature
+import java.util.prefs.Preferences;                         // persists saved paths across app restarts
 import com.formdev.flatlaf.FlatDarkLaf;                    // FlatLaf's dark theme, used for "Dark"
 import com.formdev.flatlaf.FlatLightLaf;                   // FlatLaf's light theme, used for "Light"
 
@@ -109,8 +112,10 @@ public class Main {
         JMenu view = new JMenu("View");        // top-level "View" menu (zoom controls)
         JMenu theme = new JMenu("Theme");      // top-level "Theme" menu (text/background colors)
         JMenu help = new JMenu("Help");        // top-level "Help" menu (About)
+        JMenu custom = new JMenu("Custom");
         // Note: the "Insert" menu (Insert Image / Insert Shape) has been removed per request.
         // /////////////////////////////
+
 
 ////////////////////////////////////////////////////////////
 // Help menu
@@ -179,7 +184,7 @@ public class Main {
                             "<p>This application was created as a Java Swing project " +
                             "for learning and practicing desktop application development.</p>" +
 
-                            "<p><b>Developed with:</b> Java Swing</p>" +
+                            "<p><b>Developed with:</b> Java Swing <br> Contact: heng334335@gmail.com </p>" +
 
                             "</html>";
 
@@ -300,10 +305,20 @@ public class Main {
 
         help.add(about);   // put "About" into the Help menu
 
+        // ------------------------------------------------------------
+        // "Custom" menu: lets the user save/paste file paths so they can be
+        // reopened later without browsing for them again (add, remove, open).
+        // ------------------------------------------------------------
+        JMenuItem savedPathsItem = new JMenuItem("Saved Paths...");   // opens the manage-paths dialog
+        savedPathsItem.setToolTipText("Save a file path here so you can jump straight back to it later");
+        custom.add(savedPathsItem);                                    // put it into the Custom menu
+        // its actionListener is attached further below, once "tab" exists (see "Custom > Saved Paths" wiring)
+
         menubar.add(file);    // add "File" to the menu bar
         menubar.add(edit);    // add "Edit" to the menu bar
         menubar.add(view);    // add "View" to the menu bar
         menubar.add(theme);   // add "Theme" to the menu bar
+        menubar.add(custom);  // add "Custom" to the menu bar
         menubar.add(help);    // add "Help" to the menu bar
 
         // ////////////////////////////////
@@ -327,6 +342,7 @@ public class Main {
         JTabbedPane tab = new JTabbedPane(); // holds one tab per open document
         tab.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put( KeyStroke.getKeyStroke("control W"), "closeTab" );
         tab.getActionMap().put("closeTab", new AbstractAction() { @Override public void actionPerformed(ActionEvent e) { close_tab(tab); } });
+        savedPathsItem.addActionListener(e -> openCustomPathsDialog(frame, tab)); // "Custom > Saved Paths" -> open the add/remove/open dialog
         tab.setPreferredSize(new Dimension(100, 20));      // minimal preferred size; BorderLayout stretches it to fill anyway
 
         /// /////////////////////////////////////////////////// menu actions
@@ -418,28 +434,22 @@ public class Main {
     // ///////////////////////////////////////////////////////////////////
 
     /**
-     * Loads an image from a path relative to the project (e.g. "pngs/javaink.png").
-     * Tries the path as-is first, then falls back to resolving it relative to wherever
-     * the running code actually lives (useful if the app isn't launched from the project folder).
-     * Returns null - instead of a broken image - if the file truly can't be found or read,
+     * Loads an image from the classpath (e.g. "pngs/javaink.png").
+     * This works both when running from an IDE/loose classes folder AND when running from
+     * inside a packaged JAR, because it reads through the classloader's resource lookup
+     * instead of treating the path as a real file on disk (which breaks once the pngs
+     * folder is zipped inside the JAR - that was the cause of the missing icons).
+     * Returns null - instead of a broken image - if the resource truly can't be found or read,
      * so callers can simply skip setting an icon rather than showing a corrupt/red icon.
      */
     static Image loadImage(String relativePath) {
-        File f = new File(relativePath);                                   // try the path exactly as given first
-        if (!f.exists()) {                                                  // not found from the current working directory
-            try {
-                File codeSource = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()); // where Main.class/Main.jar actually is
-                File base = codeSource.isFile() ? codeSource.getParentFile() : codeSource; // a jar -> its folder; a classes dir -> itself
-                File alt = new File(base, relativePath);                    // re-resolve pngs/... relative to that location
-                if (alt.exists()) f = alt;                                   // use it if it actually exists there
-            } catch (Exception ignored) {                                   // any failure here just means we keep the original (missing) path
-            }
-        }
-        if (!f.exists()) {                                                  // still not found after the fallback
+        String resourcePath = relativePath.startsWith("/") ? relativePath : "/" + relativePath; // classpath lookups are rooted, so ensure a leading slash
+        java.net.URL url = Main.class.getResource(resourcePath);            // find the resource on the classpath (works in IDE output folder and inside a JAR)
+        if (url == null) {                                                  // not found anywhere on the classpath
             System.err.println("Image not found: " + relativePath);        // log it so it's easy to spot in the console
             return null;                                                    // hand back null instead of a broken image
         }
-        ImageIcon raw = new ImageIcon(f.getPath());                          // let Swing load and decode the file
+        ImageIcon raw = new ImageIcon(url);                                  // let Swing load and decode the resource
         if (raw.getImageLoadStatus() != MediaTracker.COMPLETE) {             // decoding failed (corrupt/unsupported file)
             System.err.println("Image failed to load: " + relativePath);    // log it so it's easy to spot in the console
             return null;                                                    // hand back null instead of a broken image
@@ -678,6 +688,14 @@ public class Main {
         if (result != JFileChooser.APPROVE_OPTION) return;     // user cancelled -> nothing to do
 
         File file = chooseFile.getSelectedFile();               // the file the user picked
+        openFileFromDisk(file, frame, tab);                     // shared loading logic (also used by Custom > Saved Paths)
+    }
+
+    /**
+     * Reads a file from disk into a brand-new tab. Shared by the "File > Open" file-chooser
+     * flow and the "Custom > Saved Paths" flow, so both stay in sync with one implementation.
+     */
+    private static void openFileFromDisk(File file, JFrame frame, JTabbedPane tab) {
         DefaultStyledDocument loaded = new DefaultStyledDocument(); // a scratch document to read the file's contents into
         try {
             if (isRtfPath(file.getName())) {                                   // .rtf files carry formatting, so parse them specially
@@ -710,6 +728,123 @@ public class Main {
         copyStyledContent(loaded, pane.getStyledDocument());                     // copy the parsed content (with styling) into the new tab
         setFilePath(pane, file.getAbsolutePath());                               // remember where this tab's file lives on disk (stored on the pane itself)
         frame.setTitle("JavaInk - " + file.getName());                           // reflect the opened file in the window title
+    }
+
+    // ///////////////////////////////////////////////////////////////////
+    // Custom > Saved Paths: let the user paste/save file paths so they can
+    // reopen them later without browsing again. Add, remove, and open.
+    // Paths are stored via Java's Preferences API, so they persist even
+    // after the app is closed and reopened (and survive across the JAR/exe).
+    // ///////////////////////////////////////////////////////////////////
+    private static final String SAVED_PATHS_PREF_KEY = "custom_saved_paths"; // key under which the joined path list is stored
+
+    /** Reads the saved paths back out of Preferences (empty list if none saved yet). */
+    static List<String> loadSavedPaths() {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);   // per-user storage, keyed to this app's package
+        String joined = prefs.get(SAVED_PATHS_PREF_KEY, "");              // stored as one big string, "\n"-separated
+        List<String> result = new ArrayList<>();                          // the list we'll hand back
+        if (!joined.isEmpty()) {                                          // only split if something was actually saved
+            for (String p : joined.split("\n")) {                        // each line is one saved path
+                if (!p.isBlank()) result.add(p);                          // skip any stray empty lines
+            }
+        }
+        return result;
+    }
+
+    /** Overwrites the saved-paths list in Preferences with the given list. */
+    static void saveSavedPaths(List<String> paths) {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);   // same node used by loadSavedPaths()
+        prefs.put(SAVED_PATHS_PREF_KEY, String.join("\n", paths));        // join back into one "\n"-separated string
+    }
+
+    /** Opens the file at the given saved path into a new tab, or warns if it no longer exists. */
+    static void open_file_from_saved_path(String path, JFrame frame, JTabbedPane tab) {
+        File file = new File(path);                                       // resolve the saved path to a real File
+        if (!file.exists() || !file.isFile()) {                           // the file may have moved/been deleted since it was saved
+            JOptionPane.showMessageDialog(frame, "File not found:\n" + path, "Open Saved Path", JOptionPane.WARNING_MESSAGE);
+            return;                                                       // nothing to open
+        }
+        openFileFromDisk(file, frame, tab);                                // reuse the exact same loading logic as "File > Open"
+    }
+
+    /** Shows the "Custom > Saved Paths" dialog: paste a path to save it, pick one to open it or delete it. */
+    static void openCustomPathsDialog(JFrame frame, JTabbedPane tab) {
+        DefaultListModel<String> model = new DefaultListModel<>();        // backing model for the JList below
+        for (String p : loadSavedPaths()) model.addElement(p);            // pre-fill with whatever was saved previously
+
+        JList<String> list = new JList<>(model);                          // shows every saved path
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);       // only one path selected/acted on at a time
+        JScrollPane listScroll = new JScrollPane(list);                   // scrollable in case the list grows long
+        listScroll.setPreferredSize(new Dimension(420, 180));             // comfortable default size
+
+        JTextField pathField = new JTextField();                          // where the user pastes a new path
+        pathField.setPreferredSize(new Dimension(300, 28));
+        JButton addBtn = new JButton("Add");                              // saves pathField's text into the list
+        JButton removeBtn = new JButton("Remove");                        // deletes the selected entry
+        JButton openBtn = new JButton("Open");                            // opens the selected entry's file
+        JButton closeBtn = new JButton("Close");                          // dismisses the dialog
+
+        JPanel addRow = new JPanel(new BorderLayout(6, 0));               // paste field + Add button, side by side
+        addRow.add(pathField, BorderLayout.CENTER);
+        addRow.add(addBtn, BorderLayout.EAST);
+
+        JPanel buttonRow = new JPanel(new FlowLayout(FlowLayout.RIGHT));  // Remove / Open / Close, right-aligned
+        buttonRow.add(removeBtn);
+        buttonRow.add(openBtn);
+        buttonRow.add(closeBtn);
+
+        JPanel content = new JPanel(new BorderLayout(8, 8));              // overall dialog layout
+        content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        content.add(addRow, BorderLayout.NORTH);
+        content.add(listScroll, BorderLayout.CENTER);
+        content.add(buttonRow, BorderLayout.SOUTH);
+
+        JDialog dialog = new JDialog(frame, "Custom Saved Paths", true);  // modal so it behaves like the other dialogs in this app
+        dialog.setContentPane(content);
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);                              // center over the main window
+
+        Runnable persist = () -> {                                        // small helper so Add/Remove don't repeat this
+            List<String> current = new ArrayList<>();
+            for (int i = 0; i < model.size(); i++) current.add(model.get(i));
+            saveSavedPaths(current);
+        };
+
+        addBtn.addActionListener(e -> {                                   // "Add" -> save the pasted path
+            String path = pathField.getText().trim();                     // whatever the user pasted/typed
+            if (path.isEmpty()) return;                                   // nothing to add
+            if (!model.contains(path)) {                                  // avoid duplicate entries
+                model.addElement(path);                                   // show it in the list immediately
+                persist.run();                                            // write the updated list to Preferences
+            }
+            pathField.setText("");                                        // clear the field for the next paste
+        });
+        pathField.addActionListener(e -> addBtn.doClick());               // pressing Enter in the field also adds it
+
+        removeBtn.addActionListener(e -> {                                // "Remove" -> delete the selected path
+            int idx = list.getSelectedIndex();                            // which row is selected
+            if (idx >= 0) {                                                // something is actually selected
+                model.remove(idx);                                        // drop it from the visible list
+                persist.run();                                            // write the updated list to Preferences
+            }
+        });
+
+        openBtn.addActionListener(e -> {                                  // "Open" -> load the selected path's file
+            String selected = list.getSelectedValue();                    // the chosen path, or null if none selected
+            if (selected != null) {
+                open_file_from_saved_path(selected, frame, tab);          // open it into a new tab
+                dialog.dispose();                                         // close the dialog once opened
+            }
+        });
+        list.addMouseListener(new MouseAdapter() {                        // double-click a row as a shortcut for "Open"
+            @Override public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) openBtn.doClick();
+            }
+        });
+
+        closeBtn.addActionListener(e -> dialog.dispose());                // just closes the dialog, no changes needed
+
+        dialog.setVisible(true);                                          // show it and block until the user is done
     }
 
     public static void save_file_func(JFileChooser chooseFile, JFrame frame, JTabbedPane tab) {
